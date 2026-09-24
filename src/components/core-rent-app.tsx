@@ -72,8 +72,7 @@ function CoreRentShell({ initialTab = "dashboard", seoTitle, seoDescription }: C
     <main className="min-h-screen bg-background text-foreground">
       <div className="mx-auto max-w-[1480px] px-4 py-4 sm:px-6 lg:px-8">
         <header className="flex min-h-16 items-center justify-between gap-4 border-b border-border pb-4">
-          <button type="button" onClick={() => setTab("dashboard")} className="flex items-center gap-2" aria-label="CoreRent dashboard">
-            <span className="grid size-8 place-items-center rounded-xl bg-primary text-sm font-black text-primary-foreground">C</span>
+          <button type="button" onClick={() => setTab("dashboard")} className="flex items-center" aria-label="CoreRent dashboard">
             <span className="text-base font-semibold">CoreRent <span className="text-status">⚡</span></span>
           </button>
           <nav className="hidden rounded-2xl border border-border bg-surface p-1 md:flex" aria-label="Primary navigation">
@@ -153,6 +152,10 @@ function Catalog({ kind, secure, setSecure, onRent }: { kind: ProductKind; secur
         <div><div className="mb-3 flex items-center gap-2 font-mono text-xs uppercase text-status"><span className="status-dot" /> Live capacity</div><h1 className="text-3xl font-semibold sm:text-5xl">{kind === "gpu" ? "GPU compute catalog" : "Nodes & CPU cloud"}</h1><p className="mt-3 text-sm text-muted-foreground">Live decentralized capacity. Transparent hourly pricing. Deploy in under 45 seconds.</p></div>
         <div className="flex items-center gap-2 font-mono text-xs text-muted-foreground"><Activity className="size-4 text-status" />{rows.length.toLocaleString()} capacity records</div>
       </div>
+      <label className="mb-5 flex cursor-pointer items-start gap-3 rounded-2xl border border-border bg-surface px-4 py-4 text-sm text-muted-foreground">
+        <Checkbox checked={secure} onCheckedChange={(value) => setSecure(value === true)} aria-label="Enable secure gateway" />
+        <span><strong className="font-medium text-foreground">Enforce CoreRent secure gateway isolation & firewall shielding.</strong><span className="mt-1 block text-xs">Required for all deployments. Malicious traffic is rejected before reaching your instance.</span></span>
+      </label>
       <div className="overflow-hidden rounded-2xl border border-border bg-surface">
         <div className="hidden grid-cols-[1.5fr_1.6fr_1.2fr_.65fr_1fr_.8fr] gap-4 border-b border-border px-5 py-3 font-mono text-[10px] uppercase text-muted-foreground lg:grid">
           <span>{kind === "gpu" ? "GPU Hardware" : "Node Hardware"}</span><span>Environment Preset</span><span>Location / Uptime</span><span>Duration</span><span>CoreRent Price</span><span className="text-right">Action</span>
@@ -160,10 +163,6 @@ function Catalog({ kind, secure, setSecure, onRent }: { kind: ProductKind; secur
         <div>{rows.map((row) => <CatalogRow key={row.id} row={row} kind={kind} secure={secure} onRent={onRent} />)}</div>
         <div ref={loadRef} className="flex h-16 items-center justify-center gap-2 font-mono text-xs text-muted-foreground"><CircleDot className="size-3 animate-pulse text-status"/> Syncing ledger capacity</div>
       </div>
-      <label className="mt-5 flex cursor-pointer items-start gap-3 rounded-2xl border border-border bg-surface px-4 py-4 text-sm text-muted-foreground">
-        <Checkbox checked={secure} onCheckedChange={(value) => setSecure(value === true)} aria-label="Enable secure gateway" />
-        <span><strong className="font-medium text-foreground">Enforce CoreRent secure gateway isolation & firewall shielding.</strong><span className="mt-1 block text-xs">Required for all deployments. Malicious traffic is rejected before reaching your instance.</span></span>
-      </label>
     </div>
   );
 }
