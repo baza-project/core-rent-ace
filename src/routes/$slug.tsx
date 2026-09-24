@@ -17,7 +17,7 @@ function getPage(service: string, location: string) {
 
 export const Route = createFileRoute("/rent-$")({
   head: ({ params }) => {
-    const slug = params._splat ?? "gpu-rental-usa";
+    const slug = params.slug.startsWith("rent-") ? params.slug.slice(5) : "gpu-rental-usa";
     const location = Object.keys(locationNames).find((key) => slug.endsWith(`-${key}`)) ?? "usa";
     const service = slug.slice(0, -(location.length + 1));
     const page = getPage(service, location);
@@ -48,7 +48,8 @@ export const Route = createFileRoute("/rent-$")({
 });
 
 function DynamicRentPage() {
-  const { _splat: slug = "gpu-rental-usa" } = Route.useParams();
+  const { slug: routeSlug } = Route.useParams();
+  const slug = routeSlug.startsWith("rent-") ? routeSlug.slice(5) : "gpu-rental-usa";
   const location = Object.keys(locationNames).find((key) => slug.endsWith(`-${key}`)) ?? "usa";
   const service = slug.slice(0, -(location.length + 1));
   const page = getPage(service, location);
