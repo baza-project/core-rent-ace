@@ -15,7 +15,7 @@ function getPage(service: string, location: string) {
   return { serviceName, locationName, title, description };
 }
 
-export const Route = createFileRoute("/rent-/$")({
+export const Route = createFileRoute("/rent-$")({
   head: ({ params }) => {
     const slug = params._splat ?? "gpu-rental-usa";
     const location = Object.keys(locationNames).find((key) => slug.endsWith(`-${key}`)) ?? "usa";

@@ -98,7 +98,7 @@ function CoreRentShell({ initialTab = "dashboard", seoTitle, seoDescription }: C
         </nav>
 
         <section key={tab} className="animate-enter">
-          {tab === "dashboard" ? <Dashboard title={seoTitle} description={seoDescription} onExplore={() => setTab("gpu")} /> : (
+          {tab === "dashboard" ? <Dashboard title={seoTitle ?? undefined} description={seoDescription ?? undefined} onExplore={() => setTab("gpu")} /> : (
             <Catalog kind={tab === "gpu" ? "gpu" : "cpu"} secure={secure} setSecure={setSecure} onRent={openRental} />
           )}
         </section>
@@ -108,7 +108,7 @@ function CoreRentShell({ initialTab = "dashboard", seoTitle, seoDescription }: C
   );
 }
 
-function Dashboard({ title, description, onExplore }: { title?: string; description?: string; onExplore: () => void }) {
+function Dashboard({ title, description, onExplore }: { title: string | undefined; description: string | undefined; onExplore: () => void }) {
   const metrics = [["Nodes Online", "1,420"], ["Avg Deploy Time", "42s"], ["Network Uptime", "99.99%"]];
   const pillars = [
     { icon: Sparkles, title: "Simplicity", text: "1-click Web3 login", detail: "Connect and deploy. No accounts, keys, or cloud configuration." },
@@ -143,7 +143,7 @@ function Catalog({ kind, secure, setSecure, onRent }: { kind: ProductKind; secur
   useEffect(() => {
     const node = loadRef.current;
     if (!node) return;
-    const observer = new IntersectionObserver(([entry]) => { if (entry.isIntersecting) setCount((value) => value + 10); }, { rootMargin: "200px" });
+    const observer = new IntersectionObserver(([entry]) => { if (entry?.isIntersecting) setCount((value) => value + 10); }, { rootMargin: "200px" });
     observer.observe(node);
     return () => observer.disconnect();
   }, []);
@@ -191,7 +191,7 @@ function RentalDialog({ rental, onClose }: { rental: Rental | null; onClose: () 
   if (!rental) return null;
   const markup = rental.kind === "gpu" ? 0.4 : 0.05;
   const total = (rental.baseline + markup) * rental.hours;
-  const configured = Boolean(import.meta.env.VITE_REVENUE_WALLET_ADDRESS);
+  const configured = Boolean(import.meta.env['VITE_REVENUE_WALLET_ADDRESS']);
   const execute = () => { setStage("running"); window.setTimeout(() => setStage("deployed"), 1900); };
   return (
     <Dialog open={Boolean(rental)} onOpenChange={(open) => { if (!open) onClose(); }}><DialogContent className="max-h-[92vh] max-w-3xl overflow-y-auto rounded-2xl border-border bg-background p-6 sm:p-9">

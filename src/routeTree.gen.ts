@@ -10,43 +10,43 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as RentServiceLocationRouteImport } from './routes/rent-$service-$location'
+import { Route as RentSplatRouteImport } from './routes/rent-$'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const RentServiceLocationRoute = RentServiceLocationRouteImport.update({
-  id: '/rent-$service-$location',
-  path: '/rent-$service-$location',
+const RentSplatRoute = RentSplatRouteImport.update({
+  id: '/rent-$',
+  path: '/rent-$',
   getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/rent-$service-$location': typeof RentServiceLocationRoute
+  '/rent-$': typeof RentSplatRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/rent-$service-$location': typeof RentServiceLocationRoute
+  '/rent-$': typeof RentSplatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/rent-$service-$location': typeof RentServiceLocationRoute
+  '/rent-$': typeof RentSplatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/rent-$service-$location'
+  fullPaths: '/' | '/rent-$'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/rent-$service-$location'
-  id: '__root__' | '/' | '/rent-$service-$location'
+  to: '/' | '/rent-$'
+  id: '__root__' | '/' | '/rent-$'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  RentServiceLocationRoute: typeof RentServiceLocationRoute
+  RentSplatRoute: typeof RentSplatRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -58,11 +58,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/rent-$service-$location': {
-      id: '/rent-$service-$location'
-      path: '/rent-$service-$location'
-      fullPath: '/rent-$service-$location'
-      preLoaderRoute: typeof RentServiceLocationRouteImport
+    '/rent-$': {
+      id: '/rent-$'
+      path: '/rent-$'
+      fullPath: '/rent-$'
+      preLoaderRoute: typeof RentSplatRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -70,7 +70,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  RentServiceLocationRoute: RentServiceLocationRoute,
+  RentSplatRoute: RentSplatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
