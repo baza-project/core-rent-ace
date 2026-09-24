@@ -5,7 +5,7 @@ import { WalletModalProvider, WalletMultiButton } from "@solana/wallet-adapter-r
 import { PhantomWalletAdapter } from "@solana/wallet-adapter-phantom";
 import { SolflareWalletAdapter } from "@solana/wallet-adapter-solflare";
 import { PublicKey, clusterApiUrl } from "@solana/web3.js";
-import { Activity, ArrowRight, Check, ChevronRight, CircleDot, Cloud, Cpu, Gauge, Globe2, LockKeyhole, Server, ShieldCheck, Sparkles, TerminalSquare, X } from "lucide-react";
+import { Activity, ArrowRight, ChevronRight, CircleDot, Cloud, Gauge, LockKeyhole, ShieldCheck, Sparkles, TerminalSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";

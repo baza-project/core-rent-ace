@@ -10,33 +10,43 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as RentServiceLocationRouteImport } from './routes/rent-$service-$location'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RentServiceLocationRoute = RentServiceLocationRouteImport.update({
+  id: '/rent-$service-$location',
+  path: '/rent-$service-$location',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/rent-$service-$location': typeof RentServiceLocationRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/rent-$service-$location': typeof RentServiceLocationRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/rent-$service-$location': typeof RentServiceLocationRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/rent-$service-$location'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/rent-$service-$location'
+  id: '__root__' | '/' | '/rent-$service-$location'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  RentServiceLocationRoute: typeof RentServiceLocationRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +58,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/rent-$service-$location': {
+      id: '/rent-$service-$location'
+      path: '/rent-$service-$location'
+      fullPath: '/rent-$service-$location'
+      preLoaderRoute: typeof RentServiceLocationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  RentServiceLocationRoute: RentServiceLocationRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

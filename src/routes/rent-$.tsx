@@ -15,10 +15,13 @@ function getPage(service: string, location: string) {
   return { serviceName, locationName, title, description };
 }
 
-export const Route = createFileRoute("/rent-$service-$location")({
+export const Route = createFileRoute("/rent-/$")({
   head: ({ params }) => {
-    const page = getPage(params.service, params.location);
-    const path = `/rent-${params.service}-${params.location}`;
+    const slug = params._splat ?? "gpu-rental-usa";
+    const location = Object.keys(locationNames).find((key) => slug.endsWith(`-${key}`)) ?? "usa";
+    const service = slug.slice(0, -(location.length + 1));
+    const page = getPage(service, location);
+    const path = `/rent-${service}-${location}`;
     return {
       meta: [
         { title: page.title }, { name: "description", content: page.description },
@@ -45,7 +48,9 @@ export const Route = createFileRoute("/rent-$service-$location")({
 });
 
 function DynamicRentPage() {
-  const { service, location } = Route.useParams();
+  const { _splat: slug = "gpu-rental-usa" } = Route.useParams();
+  const location = Object.keys(locationNames).find((key) => slug.endsWith(`-${key}`)) ?? "usa";
+  const service = slug.slice(0, -(location.length + 1));
   const page = getPage(service, location);
   const initialTab = service.includes("gpu") || service.includes("ai") ? "gpu" : service.includes("node") || service.includes("cpu") ? "nodes" : "dashboard";
   return <CoreRentApp initialTab={initialTab} seoTitle={`${page.serviceName}. ${page.locationName}. Zero Friction.`} seoDescription={page.description} />;
